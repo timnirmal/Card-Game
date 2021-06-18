@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <time.h>
 #include <random>
+#include <algorithm>
 
 using namespace std;
 
@@ -157,23 +158,27 @@ for(int j=0; j<100;j++){
 
         //////wcout<< calc;
         //////wcout<<"\tNow lets see vector";
+        //used_cards_val[0]=calc;
         used_cards_val.push_back(calc);
 
-        //for printing array
-        /*for(auto &used : used_cards_val){
-            wcout<<used<<" ";
-        }*/
+        for(auto &used : used_cards_val){
 
-
+        }
+        //if(i==0){continue;}else{
         for(auto &used : used_cards_val){
             //////wcout<<" "<<used<<" ";
             if(used != calc){
+                //used_cards_val.pop_back();
                 used_cards_val[i]=calc;
             }
             else{
                 //////wcout<<" \tcalc "<<calc;
+                //used_cards_val.pop_back();
+                //randomize(cards[i]);
+                //wcout<<"randomized ";
+                //////wcout<<" ";cards[i].display_card();
             }
-        }
+        }//}
         //////wcout<<endl;
 
         /*
@@ -187,9 +192,35 @@ for(int j=0; j<100;j++){
 
     }
 
+    int count_unique;
+    vector<int> i;
+    vector<int>::iterator ip;
+    std::sort(used_cards_val.begin(), used_cards_val.end());
+    count_unique = distance(used_cards_val.begin(),unique(used_cards_val.begin(), used_cards_val.end()));
+    ip = std::unique(used_cards_val.begin(), used_cards_val.end());
+    used_cards_val.resize(std::distance(used_cards_val.begin(), ip));
+    wcout<<endl<<count_unique<<"duplicates";
+    if(count_unique!=5){
+
+        randomize(cards[j]);
+    }
+
+    //////wcout<<endl;
+    /*
+    //std::sort(used_cards_val.begin(), used_cards_val.end());
+    for(int i = 0; i < 4; i++) {
+        if (used_cards_val[i] == used_cards_val[i + 1]) {
+            wcout<<used_cards_val[i];
+            //randomize(cards[i+1]);
+            //used_cards_val.erase(used_cards_val.begin() + i);
+            //i--;
+        }
+    }*/
+
     //////wcout<<endl;
     for(auto &used : used_cards_val){
         wcout<<used<<" ";
+
     }
     wcout<<endl;
     cards[0].display_card(); wcout<<" ";
