@@ -148,36 +148,33 @@ wcout<<endl;
         //make 5 objects
         randomize(cards[i]);
         //cards[i].display_card();
-        //wcout<<endl<<cards[i].getValue()<<" "<<cards[i].getSuit()<<endl;
+        wcout<<endl<<cards[i].getValue()<<" "<<cards[i].getSuit()<<endl;
         //wcout<<cards[i].getValue()*(cards[i].getSuit()+1*10)<<endl;
+        used_cards_val.push_back(cards[i].getValue()*(cards[i].getSuit()+1*10));
+        for(auto &used : used_cards_val){
+            wcout<<used<<" ";
+        }
+        wcout<<endl;
         for(auto &used : used_cards_val){
 
             if(used == cards[i].getValue()*(cards[i].getSuit()+1*10)){
-                wcout<<"Yes";
+                //wcout<<"Yes";
 
             }
             else{
                 used_cards_val.push_back(cards[i].getValue()*(cards[i].getSuit()+1*10));
             }
         }
-
-        /*
-        if(cards[i].getValue()==cards[i+1].getValue() && cards[i].getSuit()==cards[i+1].getSuit()){
-            do{
-                wcout<<cards[i].getValue()<<" "<<cards[i+1].getValue()<<"  "
-                <<cards[i].getSuit()<<" "<<cards[i+1].getSuit()<<endl;
-                randomize(cards[i]);
-            }while(cards[i].getValue()!=cards[i+1].getValue());
-        }*/
+        used_cards_val.clear();
     }
 
 
 
     cards[0].display_card();
-    cards[1].display_card(); wcout<<endl;
-    cards[2].display_card(); wcout<<endl;
-    cards[3].display_card(); wcout<<endl;
-    cards[4].display_card(); wcout<<endl;
+    cards[1].display_card();
+    cards[2].display_card();
+    cards[3].display_card();
+    cards[4].display_card();
 
     //cards[0].display_card(); wcout<<" ";
     //cards[1].display_card(); wcout<<" ";
@@ -237,3 +234,12 @@ int main()
     return 0;
 }
  */
+
+/*
+if(cards[i].getValue()==cards[i+1].getValue() && cards[i].getSuit()==cards[i+1].getSuit()){
+    do{
+        wcout<<cards[i].getValue()<<" "<<cards[i+1].getValue()<<"  "
+        <<cards[i].getSuit()<<" "<<cards[i+1].getSuit()<<endl;
+        randomize(cards[i]);
+    }while(cards[i].getValue()!=cards[i+1].getValue());
+}*/
