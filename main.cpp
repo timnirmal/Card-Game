@@ -132,50 +132,73 @@ int main() {
     randomize(c3);
     randomize(c4);
     randomize(c5);
-wcout<<endl;
+    //wcout<<endl;
     //c1.display_card();wcout<<endl;
     //c2.display_card();wcout<<endl;
     //c3.display_card();wcout<<endl;
     //c4.display_card();wcout<<endl;
     //c5.display_card();wcout<<endl;
 
-    wcout<<endl;
+    //wcout<<endl;
 
     card cards[5];
     //randomize(cards[0]);
-//for(int j=0; j<100;j++){
+for(int j=0; j<100;j++){
     for(int i=0; i<5;i++){
         //make 5 objects
         randomize(cards[i]);
         //cards[i].display_card();
-        wcout<<endl<<cards[i].getValue()<<" "<<cards[i].getSuit()<<endl;
-        //wcout<<cards[i].getValue()*(cards[i].getSuit()+1*10)<<endl;
-        used_cards_val.push_back(cards[i].getValue()*(cards[i].getSuit()+1*10));
-        for(auto &used : used_cards_val){
+        //////wcout<<cards[i].getValue()<<" "<<cards[i].getSuit()<<"   ";
+
+        int x = cards[i].getValue();
+        int y = cards[i].getSuit();
+        //int calc = x * ((y+1)*10);
+        int calc = x*10 + y;
+
+        //////wcout<< calc;
+        //////wcout<<"\tNow lets see vector";
+        used_cards_val.push_back(calc);
+
+        //for printing array
+        /*for(auto &used : used_cards_val){
             wcout<<used<<" ";
-        }
-        wcout<<endl;
+        }*/
+
+
         for(auto &used : used_cards_val){
-
-            if(used == cards[i].getValue()*(cards[i].getSuit()+1*10)){
-                //wcout<<"Yes";
-
+            //////wcout<<" "<<used<<" ";
+            if(used != calc){
+                used_cards_val[i]=calc;
             }
             else{
-                used_cards_val.push_back(cards[i].getValue()*(cards[i].getSuit()+1*10));
+                //////wcout<<" \tcalc "<<calc;
             }
         }
-        used_cards_val.clear();
+        //////wcout<<endl;
+
+        /*
+        if(cards[i].getValue()==cards[i+1].getValue() && cards[i].getSuit()==cards[i+1].getSuit()){
+            do{
+                wcout<<cards[i].getValue()<<" "<<cards[i+1].getValue()<<"  "
+                <<cards[i].getSuit()<<" "<<cards[i+1].getSuit()<<endl;
+                randomize(cards[i]);
+            }while(cards[i].getValue()!=cards[i+1].getValue());
+        }*/
+
     }
 
+    //////wcout<<endl;
+    for(auto &used : used_cards_val){
+        wcout<<used<<" ";
+    }
+    wcout<<endl;
+    cards[0].display_card(); wcout<<" ";
+    cards[1].display_card(); wcout<<" ";
+    cards[2].display_card(); wcout<<" ";
+    cards[3].display_card(); wcout<<" ";
+    cards[4].display_card(); wcout<<" ";
 
-
-    cards[0].display_card();
-    cards[1].display_card();
-    cards[2].display_card();
-    cards[3].display_card();
-    cards[4].display_card();
-
+    wcout<<endl;
     //cards[0].display_card(); wcout<<" ";
     //cards[1].display_card(); wcout<<" ";
     //cards[2].display_card(); wcout<<" ";
@@ -183,7 +206,8 @@ wcout<<endl;
     //cards[4].display_card(); wcout<<" ";
 
     wcout<<endl;
-//}
+    used_cards_val.clear();
+}
     return 0;
 }
 
@@ -234,12 +258,3 @@ int main()
     return 0;
 }
  */
-
-/*
-if(cards[i].getValue()==cards[i+1].getValue() && cards[i].getSuit()==cards[i+1].getSuit()){
-    do{
-        wcout<<cards[i].getValue()<<" "<<cards[i+1].getValue()<<"  "
-        <<cards[i].getSuit()<<" "<<cards[i+1].getSuit()<<endl;
-        randomize(cards[i]);
-    }while(cards[i].getValue()!=cards[i+1].getValue());
-}*/
