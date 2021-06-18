@@ -140,7 +140,7 @@ wcout<<endl;
     //c5.display_card();wcout<<endl;
 
     wcout<<endl;
-
+//
     card cards[5];
     //randomize(cards[0]);
 //for(int j=0; j<100;j++){
