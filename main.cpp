@@ -167,10 +167,10 @@ void random_5cards(card &c1, card &c2, card &c3, card &c4, card &c5){
               int count_unique;
               vector<int> i;
               vector<int>::iterator ip;
-              std::sort(used_cards_val.begin(), used_cards_val.end());
+              sort(used_cards_val.begin(), used_cards_val.end());
               count_unique = distance(used_cards_val.begin(),unique(used_cards_val.begin(), used_cards_val.end()));
-              ip = std::unique(used_cards_val.begin(), used_cards_val.end());
-              used_cards_val.resize(std::distance(used_cards_val.begin(), ip));
+              ip = unique(used_cards_val.begin(), used_cards_val.end());
+              used_cards_val.resize(distance(used_cards_val.begin(), ip));
               wcout<<count_unique<<" ";
 
 
@@ -184,7 +184,7 @@ void random_5cards(card &c1, card &c2, card &c3, card &c4, card &c5){
 
           wcout<<endl;
 
-          //std::sort(used_cards_val.begin(), used_cards_val.end());
+          //sort(used_cards_val.begin(), used_cards_val.end());
           for(int i = 0; i < 4; i++) {
               if (used_cards_val[i] == used_cards_val[i + 1]) {
                   wcout<<used_cards_val[i];
@@ -222,101 +222,55 @@ int main() {
     //wcout<<endl;
 
     card cards[5];
+    bool flag=0;
     //randomize(cards[0]);
-for(int j=0; j<100;j++){
-    int count_unique;
+for(int j=0; j<1;j++){
+    int count_unique=0;
 
-    //
-    do {
+    while (flag==0) {
+        for (int k = 0; k < 5; k++) {cards[k].display_card();wcout<<" ";}
+        wcout<<endl;
+        if(count_unique==5){
+            flag=1;
+            wcout<<"I'm out";
+            break;
+        }else{
+        count_unique=0;
+        used_cards_val.clear();
         for (int k = 0; k < 5; k++) {
             //make 5 objects
             randomize(cards[k]);
-            //cards[i].display_card();
-            //////wcout<<cards[i].getValue()<<" "<<cards[i].getSuit()<<"   ";
 
             int x = cards[k].getValue();
             int y = cards[k].getSuit();
             int calc = x * 10 + y;
-
-            //////wcout<< calc;
-            //////wcout<<"\tNow lets see vector";
-            //used_cards_val[0]=calc;
             used_cards_val.push_back(calc);
 
-            //for (auto &used : used_cards_val) {}
-            //if(i==0){continue;}else{
-            /*for (auto &used : used_cards_val) {
-                //////wcout<<" "<<used<<" ";
-                if (used != calc) {
-                    //used_cards_val.pop_back();
-                    used_cards_val[k] = calc;
-                } else {
-                    //////wcout<<" \tcalc "<<calc;
-                    //used_cards_val.pop_back();
-                    //randomize(cards[i]);
-                    //wcout<<"randomized ";
-                    //////wcout<<" ";cards[i].display_card();
-                }
-            }*///}
-            //////wcout<<endl;
-
-            /*
-            if (cards[k].getValue() == cards[k + 1].getValue() && cards[k].getSuit() == cards[k + 1].getSuit()) {
-                do {
-                    wcout << cards[k].getValue() << " " << cards[k + 1].getValue() << "  "
-                          << cards[k].getSuit() << " " << cards[k + 1].getSuit() << endl;
-                    randomize(cards[k]);
-                } while (cards[k].getValue() != cards[k + 1].getValue());
-            }*/
-            count_unique=0;
             vector<int> i;
             vector<int>::iterator ip;
-            std::sort(used_cards_val.begin(), used_cards_val.end());
+
+            sort(used_cards_val.begin(), used_cards_val.end());
             count_unique = distance(used_cards_val.begin(), unique(used_cards_val.begin(), used_cards_val.end()));
-            ip = std::unique(used_cards_val.begin(), used_cards_val.end());
-            used_cards_val.resize(std::distance(used_cards_val.begin(), ip));
+            ip = unique(used_cards_val.begin(), used_cards_val.end());
+            used_cards_val.resize(distance(used_cards_val.begin(), ip));
             wcout << count_unique << " ";
 
-
-            if (count_unique != 5) {
-                //randomize(cards[k]);
-            }
-
-        }
-    } while (count_unique == 5);
-
-
-
-    wcout<<endl;
-    /*
-    //std::sort(used_cards_val.begin(), used_cards_val.end());
-    for(int i = 0; i < 4; i++) {
-        if (used_cards_val[i] == used_cards_val[i + 1]) {
-            wcout<<used_cards_val[i];
-            //randomize(cards[i+1]);
-            //used_cards_val.erase(used_cards_val.begin() + i);
-            //i--;
-        }
-    }*/
-//}
-    //////wcout<<endl;
-    for(auto &used : used_cards_val){
-        wcout<<used<<" ";
+        }}
 
     }
+
+    wcout<<endl;
+
+    for(auto &used : used_cards_val){
+        wcout<<used<<" ";
+    }
+
     wcout<<endl;
     cards[0].display_card(); wcout<<" ";
     cards[1].display_card(); wcout<<" ";
     cards[2].display_card(); wcout<<" ";
     cards[3].display_card(); wcout<<" ";
     cards[4].display_card(); wcout<<" ";
-
-    wcout<<endl;
-    //cards[0].display_card(); wcout<<" ";
-    //cards[1].display_card(); wcout<<" ";
-    //cards[2].display_card(); wcout<<" ";
-    //cards[3].display_card(); wcout<<" ";
-    //cards[4].display_card(); wcout<<" ";
 
     wcout<<endl;
     used_cards_val.clear();
