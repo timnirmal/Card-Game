@@ -200,63 +200,38 @@ int main() {
     _setmode(_fileno(stdout), 0x00020000);  //For print _O_U16TEXT
     //so wcout is need to be used instead of wcout
 
-    card c1;
-    card c2;
-    card c3;
-    card c4;
-    card c5;
-
-    //Create 5 randoms cards
-    randomize(c1);
-    randomize(c2);
-    randomize(c3);
-    randomize(c4);
-    randomize(c5);
-    //wcout<<endl;
-    //c1.display_card();wcout<<endl;
-    //c2.display_card();wcout<<endl;
-    //c3.display_card();wcout<<endl;
-    //c4.display_card();wcout<<endl;
-    //c5.display_card();wcout<<endl;
-
-    //wcout<<endl;
-
+    //Create 5 randoms cards using array
     card cards[5];
-    bool flag=0;
-    //randomize(cards[0]);
-for(int j=0; j<1;j++){
-    int count_unique=0;
 
-    while (flag==0) {
-        for (int k = 0; k < 5; k++) {cards[k].display_card();wcout<<" ";}
-        wcout<<endl;
+    bool flag=0;        //Used for end of loop
+    int count_unique=0; //Counting number of Unique cards in set
+
+    while (true) {
         if(count_unique==5){
-            flag=1;
-            wcout<<"I'm out";
+            flag=true;
             break;
-        }else{
-        count_unique=0;
-        used_cards_val.clear();
-        for (int k = 0; k < 5; k++) {
-            //make 5 objects
-            randomize(cards[k]);
+        }
+        else{
+            count_unique=0;
+            used_cards_val.clear();
+            for (int k = 0; k < 5; k++) {
+                //make 5 random objects
+                randomize(cards[k]);
 
-            int x = cards[k].getValue();
-            int y = cards[k].getSuit();
-            int calc = x * 10 + y;
-            used_cards_val.push_back(calc);
+                int x = cards[k].getValue();
+                int y = cards[k].getSuit();
+                int calc = x * 10 + y;
+                used_cards_val.push_back(calc);
 
-            vector<int> i;
-            vector<int>::iterator ip;
-
-            sort(used_cards_val.begin(), used_cards_val.end());
-            count_unique = distance(used_cards_val.begin(), unique(used_cards_val.begin(), used_cards_val.end()));
-            ip = unique(used_cards_val.begin(), used_cards_val.end());
-            used_cards_val.resize(distance(used_cards_val.begin(), ip));
-            wcout << count_unique << " ";
-
-        }}
-
+                //vector<int> i;
+                //vector<int>::iterator ip;
+                sort(used_cards_val.begin(), used_cards_val.end());     //Sort before counting unique values
+                count_unique = distance(used_cards_val.begin(), unique(used_cards_val.begin(), used_cards_val.end()));
+                //ip = unique(used_cards_val.begin(), used_cards_val.end());
+                used_cards_val.resize(count_unique);
+                wcout << count_unique << " ";
+            }
+        }
     }
 
     wcout<<endl;
@@ -274,7 +249,7 @@ for(int j=0; j<1;j++){
 
     wcout<<endl;
     used_cards_val.clear();
-}
+
     return 0;
 }
 
