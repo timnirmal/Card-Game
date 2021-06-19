@@ -13,8 +13,8 @@ enum suit {clubs, heart, spades, diamond};
 // A 2 3 4 5 6 7 8 9 10 J Q K
 // 1 2 3 4 5 6 7 8 9 10 11 12 13
 
-vector <int> used_cards_val;
-int used_cards_suit[5];
+vector <int> used_cards;
+vector <int> used_cards_suit;
 
 class card {
 private:
@@ -73,7 +73,7 @@ void randomize(card &card) {
     srand(rand() % 2000 + 1 * time(0));
     R_val = (rand() % 13 + 1);  // assign it a numeric value (2 - 14)
 
-    for(auto &i : used_cards_val){
+    for(auto &i : used_cards){
         if(i!=R_val){
             break;
         }
@@ -104,98 +104,14 @@ int randomVal(){
 
     return 0;
 }
-/*
-suit randomSuit(){
-    srand(rand()%2000+1*time(0));
 
-    //suit array[4]={1,2,3,4,5,6,7,8,9,10,11,12,13};
-
-    for(int j=0; j<50; j++){
-        int i = rand()%13;
-       // wcout<<array[i]<<" ";
-    }
-
-    return array[0];
-}*/
-/*
-void random_5cards(card &c1, card &c2, card &c3, card &c4, card &c5){
-    do{
-    for(int k=0; k<5;k++){
-        //make 5 objects
-        randomize(c[k]);
-        //cards[i].display_card();
-        //////wcout<<cards[i].getValue()<<" "<<cards[i].getSuit()<<"   ";
-
-        int x = cards[k].getValue();
-        int y = cards[k].getSuit();
-        //int calc = x * ((y+1)*10);
-        int calc = x*10 + y;
-
-        //////wcout<< calc;
-        //////wcout<<"\tNow lets see vector";
-        //used_cards_val[0]=calc;
-        used_cards_val.push_back(calc);
-
-        for(auto &used : used_cards_val){
-
-        }
-        //if(i==0){continue;}else{
-        for(auto &used : used_cards_val){
-            //////wcout<<" "<<used<<" ";
-            if(used != calc){
-                //used_cards_val.pop_back();
-                used_cards_val[k]=calc;
-            }
-            else{
-                //////wcout<<" \tcalc "<<calc;
-                //used_cards_val.pop_back();
-                //randomize(cards[i]);
-                //wcout<<"randomized ";
-                //////wcout<<" ";cards[i].display_card();
-            }
-        }//}
-        //////wcout<<endl;
-
-
-        if(cards[i].getValue()==cards[i+1].getValue() && cards[i].getSuit()==cards[i+1].getSuit()){
-            do{
-                wcout<<cards[i].getValue()<<" "<<cards[i+1].getValue()<<"  "
-                <<cards[i].getSuit()<<" "<<cards[i+1].getSuit()<<endl;
-                randomize(cards[i]);
-            }while(cards[i].getValue()!=cards[i+1].getValue());
-        }
-              int count_unique;
-              vector<int> i;
-              vector<int>::iterator ip;
-              sort(used_cards_val.begin(), used_cards_val.end());
-              count_unique = distance(used_cards_val.begin(),unique(used_cards_val.begin(), used_cards_val.end()));
-              ip = unique(used_cards_val.begin(), used_cards_val.end());
-              used_cards_val.resize(distance(used_cards_val.begin(), ip));
-              wcout<<count_unique<<" ";
-
-
-              if(count_unique!=5){
-                  randomize(cards[k]);
-              }
-
-          }
-
-
-
-          wcout<<endl;
-
-          //sort(used_cards_val.begin(), used_cards_val.end());
-          for(int i = 0; i < 4; i++) {
-              if (used_cards_val[i] == used_cards_val[i + 1]) {
-                  wcout<<used_cards_val[i];
-                  //randomize(cards[i+1]);
-                  //used_cards_val.erase(used_cards_val.begin() + i);
-                  //i--;
-              }
-          }
-    } while ();
+void swap(int n, int m){
+    int temp;
+    temp = used_cards[n];
+    used_cards[n]=used_cards[m];
+    used_cards[m]=temp;
 }
-*/
+
 int main() {
     _setmode(_fileno(stdout), 0x00020000);  //For print _O_U16TEXT
     //so wcout is need to be used instead of wcout
@@ -213,7 +129,7 @@ int main() {
         }
         else{
             count_unique=0;
-            used_cards_val.clear();
+            used_cards.clear();
             for (int k = 0; k < 5; k++) {
                 //make 5 random objects
                 randomize(cards[k]);
@@ -221,26 +137,18 @@ int main() {
                 int x = cards[k].getValue();
                 int y = cards[k].getSuit();
                 int calc = x * 10 + y;
-                used_cards_val.push_back(calc);
+                used_cards.push_back(calc);
 
-                //vector<int> i;
-                //vector<int>::iterator ip;
-                sort(used_cards_val.begin(), used_cards_val.end());     //Sort before counting unique values
-                count_unique = distance(used_cards_val.begin(), unique(used_cards_val.begin(), used_cards_val.end()));
-                //ip = unique(used_cards_val.begin(), used_cards_val.end());
-                used_cards_val.resize(count_unique);
-                wcout << count_unique << " ";
+                sort(used_cards.begin(), used_cards.end());     //Sort before counting unique values
+                count_unique = distance(used_cards.begin(), unique(used_cards.begin(), used_cards.end()));
+                used_cards.resize(count_unique);
             }
         }
     }
 
-    wcout<<endl;
+    //Now we have created 5 unique cards
 
-    for(auto &used : used_cards_val){
-        wcout<<used<<" ";
-    }
-
-    wcout<<endl;
+    //Just to display cards
     cards[0].display_card(); wcout<<" ";
     cards[1].display_card(); wcout<<" ";
     cards[2].display_card(); wcout<<" ";
@@ -248,15 +156,121 @@ int main() {
     cards[4].display_card(); wcout<<" ";
 
     wcout<<endl;
-    used_cards_val.clear();
+    //=====Now let's choose hidden card
+    //====1. pick two cards with equal suit
+
+    used_cards.clear();
+
+    for(int i =0; i<5;i++){
+        int x = cards[i].getValue();
+        int y = cards[i].getSuit();
+        int calc = x * 10 + y;
+        used_cards.push_back(calc);
+        used_cards_suit.push_back(y);
+
+        wcout<<used_cards[i]<<" ";
+    }
+
+    wcout<<endl;
+
+    vector <int> choosen;
+
+    for(int i =0; i<4;i++){
+        for(int j=i+1; j<5;j++){
+            if(used_cards_suit[i]==used_cards_suit[j]){
+                choosen.push_back(used_cards[i]);
+                choosen.push_back(used_cards[j]);
+                break;
+            }
+        }
+    }
+    choosen.resize(2);
+
+    //====2.Now we have choosed two cards with same values
+    //===If more than 2 sets availble this method only get one set
+    //wcout<<choosen[0]<<" "<<choosen[1]<<endl;                       //deletelater
+    //===Resize used_cards for processing non choosen cards.
+    vector<int>::iterator new_end;
+    new_end = remove(used_cards.begin(),used_cards.end(),choosen[0]);
+    new_end = remove(used_cards.begin(),used_cards.end(),choosen[1]);
+    used_cards.resize(3);
+
+    for(auto &cards : choosen){              //deletelater
+        wcout<<cards<<" ";
+    }wcout<<endl;
+    for(auto &cards : used_cards){              //deletelater
+        wcout<<cards<<" ";
+    }
+
+    wcout<<endl;
+
+    //====3.Now Start from first card and check whether if it =< 6 hops. Else pick second card as hidden card
+    sort(choosen.begin(),choosen.end());
+    int diff = ((choosen[0]/10)*10)-((choosen[1]/10)*10);
+    int hidden_card;
+    int non_hidden_card;
+
+    if(diff>=-6 && diff<0){
+        hidden_card = choosen[1];
+        non_hidden_card = choosen[0];
+    }else{
+        hidden_card = choosen[0];
+        non_hidden_card = choosen[1];
+    }
+
+    diff = abs(diff/10);
+
+    wcout<<hidden_card;
+
+    if(diff>6){
+        diff = 13 - diff;
+    }
+    wcout<<" "<<diff<<endl;
+
+    //Now Used_cards represent the remaining three cards
+    //Sort them out
+    sort(used_cards.begin(),used_cards.end());
+    wcout<<endl;
+    for(auto &cards : used_cards){              //deletelater
+        wcout<<cards<<" ";
+    }
+    wcout<<endl;
+    //Ordering rest of the numbers
+    int temp=0;
+    switch (abs(diff/10)){
+        case 1:
+            //already in order
+            break;
+        case 2:
+            //0 1 2
+            swap(1,2);
+            break;
+        case 3:
+            swap(0,1);
+            break;
+        case 4:
+            swap(0,2);
+            swap(0,1);
+            break;
+        case 5:
+            swap(0,2);
+            swap(1,2);
+            break;
+        case 6:
+            swap(0,2);
+            break;
+
+    }
+    for(auto &cards : used_cards){              //deletelater
+        wcout<<cards<<" ";
+    }
 
     return 0;
 }
 
-//Select 5 random cards
-//Assistent sort them out
-//clubs (♣), diamonds (♦), hearts (♥), and spades (♠)
-//Create 5 randoms cards
+//Assistent sort them out ✔
+//clubs (♣), diamonds (♦), hearts (♥), and spades (♠) ✔
+//Create 5 randoms cards ✔
 //Chose hidden cards
 //  select two card with same suit
 //  Use circular array
