@@ -65,7 +65,6 @@ suit card::getSuit() {
     return s;
 }
 
-
 void randomize(card &card) {
     int R_val;
     suit R_suit;
@@ -110,6 +109,17 @@ void swap(int n, int m){
     temp = used_cards[n];
     used_cards[n]=used_cards[m];
     used_cards[m]=temp;
+}
+
+void display(int n, card cards[]){
+    for(int i=0; i<5;i++){
+        int card_out_val = n/10;
+        int card_out_suit = n-((n/10)*10);
+
+        if(cards[i].getValue()==card_out_val && cards[i].getSuit()==card_out_suit){
+            cards[i].display_card();
+        }
+    }
 }
 
 int main() {
@@ -237,33 +247,44 @@ int main() {
     wcout<<endl;
     //Ordering rest of the numbers
     int temp=0;
-    switch (abs(diff/10)){
+    switch (diff){
         case 1:
+            //( small, medium, large ) = 1
             //already in order
             break;
         case 2:
             //0 1 2
+            //( small, large, medium ) = 2
             swap(1,2);
             break;
         case 3:
+            //( medium, small, large ) = 3
             swap(0,1);
             break;
         case 4:
+            //( medium, large, small ) = 4
             swap(0,2);
             swap(0,1);
             break;
         case 5:
+            //( large, small, medium ) = 5
             swap(0,2);
             swap(1,2);
             break;
         case 6:
+            //( large, medium, small ) = 6
             swap(0,2);
             break;
-
     }
     for(auto &cards : used_cards){              //deletelater
         wcout<<cards<<" ";
     }
+
+
+    display(non_hidden_card, cards);
+    display(used_cards[0], cards);
+    display(used_cards[1], cards);
+    display(used_cards[2],cards);
 
     return 0;
 }
