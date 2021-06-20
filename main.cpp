@@ -184,11 +184,11 @@ int main() {
     int non_hidden_card;
 
     if(diff>=-6 && diff<0){
-        hidden_card = choosen[1];
-        non_hidden_card = choosen[0];
-    }else{
         hidden_card = choosen[0];
         non_hidden_card = choosen[1];
+    }else{
+        hidden_card = choosen[1];
+        non_hidden_card = choosen[0];
     }
 
     diff = abs(diff/10);
@@ -232,7 +232,6 @@ int main() {
             swap(0,2);
             break;
     }
-
 
     display(non_hidden_card, cards); wcout<<" ";
     display(used_cards[0], cards); wcout<<" ";
