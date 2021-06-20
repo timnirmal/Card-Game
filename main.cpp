@@ -1,7 +1,5 @@
 #include <iostream>
-#include <iostream>
 #include <io.h>
-#include <fcntl.h>
 #include <time.h>
 #include <random>
 #include <algorithm>
@@ -26,7 +24,6 @@ public:
     void setValue(int v,suit st);
     int getValue();
     suit getSuit();
-    void randomize();
 };
 
 void card::display_card() {
@@ -91,19 +88,6 @@ void randomize(card &card) {
     card.setValue(R_val,R_suit);
 }
 
-int randomVal(){
-    srand(rand()%2000+1*time(0));
-
-    int array[13]={1,2,3,4,5,6,7,8,9,10,11,12,13};
-
-    for(int j=0; j<50; j++){
-        int i = rand()%13;
-        wcout<<array[i]<<" ";
-    }
-
-    return 0;
-}
-
 void swap(int n, int m){
     int temp;
     temp = used_cards[n];
@@ -158,14 +142,6 @@ int main() {
 
     //Now we have created 5 unique cards
 
-    //Just to display cards
-    cards[0].display_card(); wcout<<" ";
-    cards[1].display_card(); wcout<<" ";
-    cards[2].display_card(); wcout<<" ";
-    cards[3].display_card(); wcout<<" ";
-    cards[4].display_card(); wcout<<" ";
-
-    wcout<<endl;
     //=====Now let's choose hidden card
     //====1. pick two cards with equal suit
 
@@ -177,11 +153,7 @@ int main() {
         int calc = x * 10 + y;
         used_cards.push_back(calc);
         used_cards_suit.push_back(y);
-
-        wcout<<used_cards[i]<<" ";
     }
-
-    wcout<<endl;
 
     vector <int> choosen;
 
@@ -198,21 +170,12 @@ int main() {
 
     //====2.Now we have choosed two cards with same values
     //===If more than 2 sets availble this method only get one set
-    //wcout<<choosen[0]<<" "<<choosen[1]<<endl;                       //deletelater
+
     //===Resize used_cards for processing non choosen cards.
     vector<int>::iterator new_end;
     new_end = remove(used_cards.begin(),used_cards.end(),choosen[0]);
     new_end = remove(used_cards.begin(),used_cards.end(),choosen[1]);
     used_cards.resize(3);
-
-    for(auto &cards : choosen){              //deletelater
-        wcout<<cards<<" ";
-    }wcout<<endl;
-    for(auto &cards : used_cards){              //deletelater
-        wcout<<cards<<" ";
-    }
-
-    wcout<<endl;
 
     //====3.Now Start from first card and check whether if it =< 6 hops. Else pick second card as hidden card
     sort(choosen.begin(),choosen.end());
@@ -230,21 +193,14 @@ int main() {
 
     diff = abs(diff/10);
 
-    wcout<<hidden_card;
-
     if(diff>6){
         diff = 13 - diff;
     }
-    wcout<<" "<<diff<<endl;
 
     //Now Used_cards represent the remaining three cards
     //Sort them out
     sort(used_cards.begin(),used_cards.end());
-    wcout<<endl;
-    for(auto &cards : used_cards){              //deletelater
-        wcout<<cards<<" ";
-    }
-    wcout<<endl;
+
     //Ordering rest of the numbers
     int temp=0;
     switch (diff){
@@ -276,14 +232,12 @@ int main() {
             swap(0,2);
             break;
     }
-    for(auto &cards : used_cards){              //deletelater
-        wcout<<cards<<" ";
-    }
 
-    display(non_hidden_card, cards);
-    display(used_cards[0], cards);
-    display(used_cards[1], cards);
-    display(used_cards[2],cards);
+
+    display(non_hidden_card, cards); wcout<<" ";
+    display(used_cards[0], cards); wcout<<" ";
+    display(used_cards[1], cards); wcout<<" ";
+    display(used_cards[2],cards); wcout<<" ";
 
     return 0;
 }
@@ -296,7 +250,7 @@ int main() {
 //  Use circular array
 //  Start from first card and check whether if it =< 6 hops
 //  else pick second card as hidden card
-//  sort other three cards against the wcout<<2*(clubs+1*10);
+//  sort other three cards against the 2*(clubs+1*10);
 // A♣ A♥ A♠ A♦ 2♣ 2♥ 2♠ 2♦ . . . Q♣ Q♥ Q♠ Q♦ K♣ K♥ K♠ K♦
 // ( small, medium, large ) = 1 (hopes for clockwise)
 // ( small, large, medium ) = 2
@@ -304,33 +258,3 @@ int main() {
 // ( medium, large, small ) = 4
 // ( large, small, medium ) = 5
 // ( large, medium, small ) = 6
-
-
-
-
-
-
-//=========== Circular array
-/* // CPP program to demonstrate the use of circular
-// array without using extra memory space
-#include <bits/stdc++.h>
-using namespace std;
-
-// function to print circular list starting
-// from given index ind.
-void print(char a[], int n, int ind)
-{
-    // print from ind-th index to (n+i)th index.
-    for (int i = ind; i < n + ind; i++)
-        wcout << a[(i % n)] << " ";
-}
-
-// Driver code
-int main()
-{
-    char a[] = { 'A', 'B', 'C', 'D', 'E', 'F' };
-    int n = sizeof(a) / sizeof(a[0]);
-    print(a, n, 3);
-    return 0;
-}
- */
