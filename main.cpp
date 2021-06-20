@@ -280,7 +280,6 @@ int main() {
         wcout<<cards<<" ";
     }
 
-
     display(non_hidden_card, cards);
     display(used_cards[0], cards);
     display(used_cards[1], cards);
