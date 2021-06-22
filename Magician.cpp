@@ -1,53 +1,34 @@
-//
-// Created by timni on 6/23/2021.
-//
-
-#include "card.h"
-#include "Magician.h"
-
-
 #include <iostream>
 #include <io.h>
-#include <vector>
+#include <random>
 #include <algorithm>
+#include <stdio.h>
+#include <conio.h>
+#include "windows.h"
+#include "Magician.h"
+#include "card.h"
 
 using namespace std;
+
+struct sort_val{    //Use for sorting cards by assigning a index to value
+    int index;
+    int value;
+};
 
 Magician::Magician() {
     _setmode(_fileno(stdout), 0x00020000);  //For print _O_U16TEXT
     //so wcout is need to be used instead of wcout
 
-    //Create 5 randoms cards using array
+    bool flag=false;    //Mark the end of the loop
+
     card cards[5];
+    int hops = 0;
+    suit hidden_card_suit;
+    int hidden_card_value;
+    int count=0;
 
-    bool flag = 0;       //Used for end of loop
-
-    int count_unique=0; //Counting number of Unique cards in set
-
-    string mod;     //To take the mod
-    bool mark_mod;  //To Mark the mod is Random or Manual
-
-    wcout << "There are two mods in this .\n";
-    wcout << "You can either select random generating mode or you can enter data manually.\n";
-    wcout << "\ta. Random (A)\n";
-    wcout << "\ta. Manual (User Entry) (B)\n";
-
-    wcout<<"Enter mod : ";
-    cin>>mod;
-    if (mod == "a" || mod == "A" || mod == "Random" || mod == "random" || mod == "RANDOM" || mod == "R" || mod == "r"){
-        mark_mod=0;
-    }
-    else if (mod == "b" || mod == "B" || mod == "Manual" || mod == "manual" || mod == "MANUAL" || mod == "User" || mod == "user" || mod == "USER" || mod == "M" || mod == "m"){
-        mark_mod=1;
-    }
-    else {  //Make default as Manual since that is the aim of this practical
-        wcout<< "Your input is wrong...\n\n";
-        wcout<< "Proceeding manual mode....\n";
-        mark_mod =1;
-    }
-
-    //Instruction before manual mode
-    if (mark_mod==1){
+    while (true) {
+        if (flag == true) { break; }
         wcout << "You can use both Symbol and Name to input the method of suit\n";
         wcout << L"Suit : 0 for \u2663,  1 for \u2665,  2 for \u2660,  3 for \u2666\n";
         wcout << "Clubs(C), Hearts(H), Spades(S), Diamonds(D)\n" << endl;
@@ -55,162 +36,124 @@ Magician::Magician() {
         wcout << " A 2 3 4 5 6 7 8 9 10 J Q K\n"
                  " 1 2 3 4 5 6 7 8 9 10 11 12 13\n\n";
 
-        wcout<< "Example : \n";
-        wcout<< L"10\u2665 9\u2666 3\u2665 Q\u2660 J\u2663 as 10 1 9 3 3 1 12 2 11 0\n\n";
-    }
+        string input;   //To input method
+        int value;
 
-    //Do until unique card set found
-    while (true) {
-        //Loop break condition
-        if(count_unique==5){
-            flag=true;
-            break;
-        }
-        else{
-            count_unique=0;
-            used_cards.clear();
-            for (int k = 0; k < 5; k++) {
-                //make 5 random objects
+        for (int i = 1; i < 5; i++) {
+            switch (i) {
+                case 1:
+                    wcout << "Enter the Value & Suit of First card : ";
+                    break;
+                case 2:
+                    wcout << "Enter the Value & Suit of Second card : ";
+                    break;
+                case 3:
+                    wcout << "Enter the Value & Suit of Third card : ";
+                    break;
+                case 4:
+                    wcout << "Enter the Value & Suit of Fourth card : ";
+                    break;
+            }
+            cin >> value;
+            cin >> input;
 
-                //Random Algorithm
-                if(mark_mod == 0) {
-                    card::randomize(cards[k]);
-                }
-
-                //Manual Mode
-                if(mark_mod == 1) {
-                    card::getCard(cards[k]);
-                }
-
-                cout<<endl<<endl<<"Im out"<<endl;
-
-                int x = cards[k].getValue();
-                int y = cards[k].getSuit();
-                int calc = x * 10 + y;
-                used_cards.push_back(calc);
-
-                sort(used_cards.begin(), used_cards.end());     //Sort before counting unique values
-                count_unique = distance(used_cards.begin(), unique(used_cards.begin(), used_cards.end()));
-                used_cards.resize(count_unique);
+            if (input == "0" || input == "Clubs" || input == "Club" || input == "clubs" || input == "club" ||
+                input == "c" || input == "C") {
+                cards[i].setValue(value, clubs);
+            } else if (input == "1" || input == "Hearts" || input == "Heart" || input == "hearts" || input == "heart" ||
+                       input == "H" || input == "h") {
+                cards[i].setValue(value, heart);
+            } else if (input == "2" || input == "Spades" || input == "Spade" || input == "spades" || input == "spade" ||
+                       input == "S" || input == "s") {
+                cards[i].setValue(value, spades);
+            } else if (input == "3" || input == "Diamonds" || input == "Diamond" || input == "diamonds" ||
+                       input == "diamond" || input == "D" || input == "d") {
+                cards[i].setValue(value, diamond);
+            } else {
+                wcout << "Wrong input... TRY AGAIN.....\n";
+                system("cls");
             }
         }
-    }
 
+        //Suit of Hidden card equals to 1 st card suit
+        hidden_card_suit = cards[1].getSuit();
 
-    //Now we have created 5 unique cards
+        struct sort_val s[3];
+        int s_val[3];
 
-    //=====Now let's choose hidden card
-    //====1. pick two cards with equal suit
+        for (int i = 0; i < 3; i++) {
+            s[i].value = cards[i + 2].getValue();
+            s[i].index = i + 1;
+            s_val[i] = cards[i + 2].getValue();
+        }
 
-    used_cards.clear();
+        //Sorting S array
+        if (s_val[0] > s_val[1])
+            swap(s_val[0], s_val[1]);
+        if (s[0].value > s[2].value)
+            swap(s_val[0], s_val[2]);
+        if (s[1].value > s[2].value)
+            swap(s_val[1], s_val[2]);
 
-    for(int i =0; i<5;i++){
-        int x = cards[i].getValue();
-        int y = cards[i].getSuit();
-        int calc = x * 10 + y;
-        used_cards.push_back(calc);
-        used_cards_suit.push_back(y);
-    }
-
-    vector <int> choosen;
-
-    for(int i =0; i<4;i++){
-        for(int j=i+1; j<5;j++){
-            if(used_cards_suit[i]==used_cards_suit[j]){
-                choosen.push_back(used_cards[i]);
-                choosen.push_back(used_cards[j]);
-                break;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (s_val[j] == s[i].value) {
+                    s[i].index = j + 1;
+                }
             }
         }
-    }
-    choosen.resize(2);
 
-    //====2.Now we have choosed two cards with same values
-    //===If more than 2 sets availble this method only get one set
+        hops = 0;
 
-    //===Resize used_cards for processing non choosen cards.
-    vector<int>::iterator new_end;
-    new_end = remove(used_cards.begin(),used_cards.end(),choosen[0]);
-    new_end = remove(used_cards.begin(),used_cards.end(),choosen[1]);
-    used_cards.resize(3);
-
-    //====3.Now Start from first card and check whether if it =< 6 hops. Else pick second card as hidden card
-    sort(choosen.begin(),choosen.end());
-    int diff = ((choosen[0]/10)*10)-((choosen[1]/10)*10);
-    int hidden_card;
-    int non_hidden_card;
-
-    if(diff>=-6 && diff<0){
-        hidden_card = choosen[1];
-        non_hidden_card = choosen[0];
-    }else{
-        hidden_card = choosen[0];
-        non_hidden_card = choosen[1];
-    }
-
-    diff = abs(diff/10);
-
-    if(diff>6){
-        diff = 13 - diff;
-    }
-
-    //Now Used_cards represent the remaining three cards
-    //Sort them out
-    sort(used_cards.begin(),used_cards.end());
-
-    //Ordering rest of the numbers
-    int temp=0;
-    switch (diff){
-        case 1:
+        if (s[0].index < s[1].index && s[0].index < s[2].index && s[1].index < s[2].index)
             //( small, medium, large ) = 1
-            //already in order
-            break;
-        case 2:
-            //0 1 2
+            hops = 1;
+        if (s[0].index < s[2].index && s[0].index < s[1].index && s[2].index < s[1].index)
             //( small, large, medium ) = 2
-            card::swap(1,2);
-            break;
-        case 3:
+            hops = 2;
+        if (s[1].index < s[0].index && s[1].index < s[2].index && s[0].index < s[2].index)
             //( medium, small, large ) = 3
-            card::swap(0,1);
-            break;
-        case 4:
+            hops = 3;
+        if (s[1].index < s[2].index && s[1].index < s[0].index && s[2].index < s[1].index)
             //( medium, large, small ) = 4
-            card::swap(0,2);
-            card::swap(0,1);
-            break;
-        case 5:
+            hops = 4;
+        if (s[2].index < s[0].index && s[2].index < s[1].index && s[0].index < s[1].index)
             //( large, small, medium ) = 5
-            card::swap(0,2);
-            card::swap(1,2);
-            break;
-        case 6:
+            hops = 5;
+        if (s[2].index < s[1].index && s[2].index < s[0].index && s[1].index < s[0].index)
             //( large, medium, small ) = 6
-            card::swap(0,2);
-            break;
-    }
+            hops = 6;
 
-    wcout<<"\n\nCards : ";
-    card::display(non_hidden_card, cards); wcout<<" ";
-    card::display(used_cards[0], cards); wcout<<" ";
-    card::display(used_cards[1], cards); wcout<<" ";
-    card::display(used_cards[2],cards); wcout<<" ";
+        count++;
+        if (hops == 0) {
+            wcout << "\n\n================================================================"
+                     "\nInput failed please enter Different set of Cards...\n\n";
+            system("pause");
+            if (count > 1) {
+                system("cls");
+                wcout << "Please make sure the values of the last 3 cards you enter are not equl.\n\n";
+                system("pause");
+            }
+            system("cls");
+            flag = false;
+            continue;
+        } else {
+            flag = true;
+        }
+
+        int val_array[19] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 1, 2, 3, 4, 5, 6};
+
+        for (int i = 0; i < 13; i++) {
+            if (val_array[i] == cards[1].getValue()) {
+                hidden_card_value = val_array[i + hops];
+            }
+        }
+
+        wcout << "\n\nHidden Card : ";
+        cards[0].setValue(hidden_card_value, hidden_card_suit);
+        cards[0].display_card();
+        wcout << endl;
+    }
 
 }
 
-//Assistent sort them out ✔
-//clubs (♣), diamonds (♦), hearts (♥), and spades (♠) ✔
-//Create 5 randoms cards ✔
-//Chose hidden cards
-//  select two card with same suit
-//  Use circular array
-//  Start from first card and check whether if it =< 6 hops
-//  else pick second card as hidden card
-//  sort other three cards against the 2*(clubs+1*10);
-// A♣ A♥ A♠ A♦ 2♣ 2♥ 2♠ 2♦ . . . Q♣ Q♥ Q♠ Q♦ K♣ K♥ K♠ K♦
-// ( small, medium, large ) = 1 (hopes for clockwise)
-// ( small, large, medium ) = 2
-// ( medium, small, large ) = 3
-// ( medium, large, small ) = 4
-// ( large, small, medium ) = 5
-// ( large, medium, small ) = 6

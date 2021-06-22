@@ -8,11 +8,6 @@ enum suit {clubs, heart, spades, diamond};
 
 using namespace std;
 
-static vector <int> used_cards;
-static vector <int> used_cards_suit;
-
-static int count_cards =1;
-
 #ifndef UNTITLED4_CARD_H
 #define UNTITLED4_CARD_H
 
@@ -23,14 +18,10 @@ private:
 public:
     //card():val(0),s(0);
     void display_card();
+    void display_card_without_symbols();
     void setValue(int v,suit st);
     int getValue();
     suit getSuit();
-
-    static void randomize(card &card);
-    static void swap(int n, int m);
-    static void display(int n, card cards[]);
-    static void getCard(card &card);
 };
 
 
