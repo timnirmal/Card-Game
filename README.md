@@ -32,19 +32,32 @@ The Assistant locates the values of these two cards on the cycle of cards shown 
 For any two distinct values on this cycle, one is always between 1 and 6 hops clockwise from the other. For example, even though the 10♥ is 7 hops clockwise from the 3♥, the 3♥ is 6 hops clockwise from the 10♥.
 
 One of these two cards is revealed first, and the other becomes the secret card. The card that is revealed is the card from which we can reach the other card clockwise in 6 or fewer hops. Thus, in our example, the 10♥ would be revealed, and the 3♥ would be the secret card since we can reach the 3♥ from the 10♥ in 6 hops. (If on the other hand, the two cards were the 4♥ and the 10♥, the 4♥ would be revealed since the 10♥ is 6 hops clockwise from the 4♥.)
+
 The suit of the secret card is the same as the suit of the first card revealed.
+
 The value of the secret card is between 1 and 6 hops clockwise from the value of the first card revealed.
 
 All that remains is to communicate a number between 1 and 6. The Magician and Assistant agree beforehand on an ordering of all the cards in the deck from smallest to largest such as:
+
 A♣ A♥ A♠ A♦ 2♣ 2♥ 2♠ 2♦ . . . Q♣ Q♥ Q♠ Q♦ K♣ K♥ K♠ K♦
 
 The order in which the last three cards are revealed communicates the number according to the following scheme:
+
 ( small, medium, large ) = 1
+
 ( small, large, medium ) = 2
+
 ( medium, small, large ) = 3
+
 ( medium, large, small ) = 4
+
 ( large, small, medium ) = 5
+
 ( large, medium, small ) = 6
-In the example, the Assistant wants to send 6 and so reveals the remaining three cards in large, medium, small order. Here is the complete sequence that the Magician sees: 10♥ Q♠ J♣ 9♦
+
+
+In the example, the Assistant wants to send 6 and so reveals the remaining three cards in large, medium, small order. Here is the complete sequence that the Magician sees: 
+
+10♥ Q♠ J♣ 9♦
 
 The Magician starts with the first card, 10♥, and hops 6 values clockwise to reach 3♥, which is the secret card!
