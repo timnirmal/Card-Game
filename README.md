@@ -1,7 +1,22 @@
 # Card-Game
 
+## Instruction to Code
+There are two separete files in folder "Assistant and Magcian Codes in two files" which is not part of the programe.
+Acculity that two files are part in to cards, Magician, Assistant classes.
+So you can use any method you like.
+
+To create set of cards.
+
+$ Assistance a;
+
+//Note that there are two method for this. Which are random generationa and Manual user entery. So you can use the method you like.
+ 
+## About the Game
+
+
 You Can Read Minds
 
+Refer this link to know more about this.
 (https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s095-programming-for-the-puzzled-january-iap-2018/puzzle-3-you-can-read-minds/)
 
 It turns out that the order in which the Assistant reveals the cards tells the Magician what the fifth card is! The Assistant needs to be able to decide which of the cards is going to be hidden – he or she cannot allow the audience to pick the hidden card out of the five cards that the audience picks. Here’s one way that the Assistant and the Magician can work together.
@@ -12,7 +27,7 @@ The Assistant picks out two cards of the same suit. Given five cards, there will
 
 The Assistant locates the values of these two cards on the cycle of cards shown below:
 
-
+<div style="text-align:center"><img src="https://github.com/timnirmal/Card-Game/blob/a7497480263496e012cad382ddc64cfff1b685a8/Read%20Minds.png?raw=true" alt="Read Mind" width="400"/></div>
 
 For any two distinct values on this cycle, one is always between 1 and 6 hops clockwise from the other. For example, even though the 10♥ is 7 hops clockwise from the 3♥, the 3♥ is 6 hops clockwise from the 10♥.
 
